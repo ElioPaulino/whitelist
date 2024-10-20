@@ -1,7 +1,6 @@
 package com.backend.wishlist.repository;
 
 import com.backend.wishlist.domain.WishlistDomain;
-import com.backend.wishlist.dto.ProductWishlistDto;
 import java.util.List;
 import java.util.Optional;
 

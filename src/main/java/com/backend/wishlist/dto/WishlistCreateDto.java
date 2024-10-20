@@ -20,5 +20,5 @@ public class WishlistCreateDto {
   private String idProduct;
 
   @NotNull(message = "The amount is required.")
-  private int amount;
+  private Integer amount;
 }

@@ -1,7 +1,6 @@
 package com.backend.wishlist.repository.impl;
 
 import com.backend.wishlist.domain.WishlistDomain;
-import com.backend.wishlist.dto.ProductWishlistDto;
 import com.backend.wishlist.repository.WishlistRepository;
 import com.backend.wishlist.repository.impl.data.WishlistRepositoryData;
 import java.util.List;
@@ -36,7 +35,8 @@ public class WishlistRepositoryImpl implements WishlistRepository {
   }
 
   @Override
-  public Optional<WishlistDomain> findProductByIdProductAndIdClient(String idProduct, String idClient) {
+  public Optional<WishlistDomain> findProductByIdProductAndIdClient(String idProduct,
+      String idClient) {
     return wishlistRepositoryData.findByIdProductAndIdClient(idProduct, idClient);
   }
 }

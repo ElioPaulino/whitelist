@@ -31,7 +31,8 @@ public class WishlistController {
 
   @Operation(summary = "Add product to wishlist")
   @PostMapping
-  public ResponseEntity<String> addProductWishlist(@Valid @RequestBody WishlistCreateDto wishlistCreate)
+  public ResponseEntity<String> addProductWishlist(
+      @Valid @RequestBody WishlistCreateDto wishlistCreate)
       throws CustomDataRuntimeExceptionException {
     String id = wishlistService.createProduct(wishlistCreate);
     return new ResponseEntity<>(id, HttpStatus.CREATED);
@@ -39,20 +40,25 @@ public class WishlistController {
 
   @Operation(summary = "Get all products by idClient")
   @GetMapping("/clients/{idClient}")
-  public ResponseEntity<List<ProductWishlistDto>> findProductsByIdClient(@PathVariable String idClient) {
+  public ResponseEntity<List<ProductWishlistDto>> findProductsByIdClient(
+      @PathVariable String idClient) {
     return ResponseEntity.ok(wishlistService.findProductsByIdClient(idClient));
   }
 
   @Operation(summary = "Get product by idProduct and idClient")
   @GetMapping("/products/{idProduct}/clients/{idClient}")
-  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndIdClient(@PathVariable String idProduct, @PathVariable String idClient) {
-    return ResponseEntity.ok(wishlistService.findProductByIdProductAndIdClient(idProduct, idClient));
+  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndIdClient(
+      @PathVariable String idProduct, @PathVariable String idClient) {
+    return ResponseEntity.ok(
+        wishlistService.findProductByIdProductAndIdClient(idProduct, idClient));
   }
 
   @Operation(summary = "Delete product by idProduct and idCliente")
   @DeleteMapping("/products/{idProduct}/clients/{idClient}")
-  public ResponseEntity<Void> deleteProduct(@PathVariable String idProduct, @PathVariable String idClient) {
+  public ResponseEntity<Void> deleteProduct(@PathVariable String idProduct,
+      @PathVariable String idClient) {
     wishlistService.deleteProduct(idProduct, idClient);
     return ResponseEntity.noContent().build();
+
   }
 }

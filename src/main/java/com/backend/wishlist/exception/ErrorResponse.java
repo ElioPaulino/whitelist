@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class ErrorResponse {
+  
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
   private Date timestamp;
 

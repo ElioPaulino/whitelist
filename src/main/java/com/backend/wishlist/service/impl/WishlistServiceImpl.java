@@ -27,10 +27,12 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public String createProduct(WishlistCreateDto wishlistCreate) throws CustomDataRuntimeExceptionException {
-    long quantityProducts = wishlistRepository.countProductsByIdClient(wishlistCreate.getIdClient());
+  public String createProduct(WishlistCreateDto wishlistCreate)
+      throws CustomDataRuntimeExceptionException {
+    long quantityProducts = wishlistRepository.countProductsByIdClient(
+        wishlistCreate.getIdClient());
 
-    if(quantityProducts == 20) {
+    if (quantityProducts >= 20) {
       throw new CustomDataRuntimeExceptionException("Product limit reached.");
     }
 
@@ -48,6 +50,7 @@ public class WishlistServiceImpl implements WishlistService {
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void deleteProduct(String idProduct, String idClient) {
+    validateIfProductFromClientExists(idProduct, idClient);
     wishlistRepository.deleteProduct(idProduct, idClient);
   }
 
@@ -55,7 +58,7 @@ public class WishlistServiceImpl implements WishlistService {
   public List<ProductWishlistDto> findProductsByIdClient(String idClient) {
     List<WishlistDomain> wishlist = wishlistRepository.findProductsByIdClient(idClient);
     List<ProductWishlistDto> products = wishlist.stream().map(item -> {
-          return ProductWishlistDto.builder()
+      return ProductWishlistDto.builder()
           .idWishlist(item.getId())
           .amount(item.getAmount())
           .idProduct(item.getIdProduct())
@@ -67,12 +70,11 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   public ProductWishlistDto findProductByIdProductAndIdClient(String idProduct, String idClient) {
-    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdClient(idProduct, idClient);
+    Optional<WishlistDomain> wishlist = validateIfProductFromClientExists(
+        idProduct, idClient);
+
     AtomicReference<ProductWishlistDto> productWishlistDto = new AtomicReference<>(
         new ProductWishlistDto());
-
-    wishlist.orElseThrow(() -> new CustomDataNotFoundException("Product not found."));
-
     wishlist.ifPresent(item -> {
       productWishlistDto.set(ProductWishlistDto.builder()
           .idWishlist(item.getId())
@@ -81,6 +83,15 @@ public class WishlistServiceImpl implements WishlistService {
           .idClient(item.getIdClient())
           .build());
     });
+
     return productWishlistDto.get();
+  }
+
+  private Optional<WishlistDomain> validateIfProductFromClientExists(String idProduct,
+      String idClient) {
+    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdClient(
+        idProduct, idClient);
+    wishlist.orElseThrow(() -> new CustomDataNotFoundException("Product not found."));
+    return wishlist;
   }
 }

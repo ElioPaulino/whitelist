@@ -1,10 +1,8 @@
 package com.backend.wishlist.repository.impl.data;
 
 import com.backend.wishlist.domain.WishlistDomain;
-import com.backend.wishlist.dto.ProductWishlistDto;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
