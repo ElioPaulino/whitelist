@@ -21,3 +21,6 @@ API responsible for managing customers wish lists.
    Before running the application locally, ensure you have MongoDB installed and the Docker and
    docker-compose plugins set up on your computer. If you don't have MongoDB, the docker folder
    might help.
+
+4. To help with testing, you can import the postman model into the postman folder, or access swagger
+   via the url http://localhost:8080/backend-wishlist/swagger-ui/index.html
