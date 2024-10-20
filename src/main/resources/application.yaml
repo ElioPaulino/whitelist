@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: wishlist
+  data:
+    mongodb:
+      uri: mongodb://root:MongoDB2024!@localhost:27017/admin?retryWrites=false
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/backend-wishlist}
