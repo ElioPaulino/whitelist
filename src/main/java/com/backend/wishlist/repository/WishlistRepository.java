@@ -8,11 +8,11 @@ public interface WishlistRepository {
 
   WishlistDomain save(WishlistDomain wishlist);
 
-  void deleteProduct(String idProduct, String idClient);
+  void deleteProduct(String idProduct, String idCustomer);
 
-  List<WishlistDomain> findProductsByIdClient(String idClient);
+  List<WishlistDomain> findProductsByIdCustomer(String idCustomer);
 
-  long countProductsByIdClient(String idClient);
+  long countProductsByIdCustomer(String idCustomer);
 
-  Optional<WishlistDomain> findProductByIdProductAndIdClient(String idProduct, String idClient);
+  Optional<WishlistDomain> findProductByIdProductAndIdCustomer(String idProduct, String idCustomer);
 }

@@ -13,6 +13,6 @@ public class ProductWishlistDto {
 
   private String idWishlist;
   private String idProduct;
-  private String idClient;
+  private String idCustomer;
   private int amount;
 }

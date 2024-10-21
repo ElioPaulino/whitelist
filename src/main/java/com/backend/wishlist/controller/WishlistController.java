@@ -38,26 +38,26 @@ public class WishlistController {
     return new ResponseEntity<>(id, HttpStatus.CREATED);
   }
 
-  @Operation(summary = "Get all products by idClient")
-  @GetMapping("/clients/{idClient}")
-  public ResponseEntity<List<ProductWishlistDto>> findProductsByIdClient(
-      @PathVariable String idClient) {
-    return ResponseEntity.ok(wishlistService.findProductsByIdClient(idClient));
+  @Operation(summary = "Get all products by idCustomer")
+  @GetMapping("/customers/{idCustomer}")
+  public ResponseEntity<List<ProductWishlistDto>> findProductsByidCustomer(
+      @PathVariable String idCustomer) {
+    return ResponseEntity.ok(wishlistService.findProductsByIdCustomer(idCustomer));
   }
 
-  @Operation(summary = "Get product by idProduct and idClient")
-  @GetMapping("/products/{idProduct}/clients/{idClient}")
-  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndIdClient(
-      @PathVariable String idProduct, @PathVariable String idClient) {
+  @Operation(summary = "Get product by idProduct and idCustomer")
+  @GetMapping("/products/{idProduct}/customers/{idCustomer}")
+  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndidCustomer(
+      @PathVariable String idProduct, @PathVariable String idCustomer) {
     return ResponseEntity.ok(
-        wishlistService.findProductByIdProductAndIdClient(idProduct, idClient));
+        wishlistService.findProductByIdProductAndIdCustomer(idProduct, idCustomer));
   }
 
-  @Operation(summary = "Delete product by idProduct and idCliente")
-  @DeleteMapping("/products/{idProduct}/clients/{idClient}")
+  @Operation(summary = "Delete product by idProduct and idCustomere")
+  @DeleteMapping("/products/{idProduct}/customers/{idCustomer}")
   public ResponseEntity<Void> deleteProductWishlist(@PathVariable String idProduct,
-      @PathVariable String idClient) {
-    wishlistService.deleteProductWishlist(idProduct, idClient);
+      @PathVariable String idCustomer) {
+    wishlistService.deleteProductWishlist(idProduct, idCustomer);
     return ResponseEntity.noContent().build();
 
   }

@@ -17,7 +17,7 @@ public class WishlistDomain {
 
   @Id
   private String id;
-  private String idClient;
+  private String idCustomer;
   private String idProduct;
   private int amount;
 

@@ -79,34 +79,34 @@ class WishlistControllerTest {
   }
 
   @Test
-  void givenAPayloadOfWishlistCreateDtoWithIdClientNullWhenCreateProductThenResultInAnError()
+  void givenAPayloadOfWishlistCreateDtoWithIdCustomerNullWhenCreateProductThenResultInAnError()
       throws Exception {
     String wishlistCreateJson = objectMapper.writeValueAsString(
-        makeWishlistCreateDto().toBuilder().idClient(null).build());
+        makeWishlistCreateDto().toBuilder().idCustomer(null).build());
 
     mockMvc.perform(post("/v1/wishlists")
             .contentType(MediaType.APPLICATION_JSON)
             .content(wishlistCreateJson))
         .andExpect(MockMvcResultMatchers.status().isBadRequest())
         .andExpect(
-            MockMvcResultMatchers.jsonPath("$.idClient", Is.is("The idClient is required.")))
+            MockMvcResultMatchers.jsonPath("$.idCustomer", Is.is("The idCustomer is required.")))
         .andExpect(MockMvcResultMatchers.content()
             .contentType(MediaType.APPLICATION_JSON));
 
   }
 
   @Test
-  void givenAPayloadOfWishlistCreateDtoWithIdClientEmptyWhenCreateProductThenResultInAnError()
+  void givenAPayloadOfWishlistCreateDtoWithIdCustomerEmptyWhenCreateProductThenResultInAnError()
       throws Exception {
     String wishlistCreateJson = objectMapper.writeValueAsString(
-        makeWishlistCreateDto().toBuilder().idClient("").build());
+        makeWishlistCreateDto().toBuilder().idCustomer("").build());
 
     mockMvc.perform(post("/v1/wishlists")
             .contentType(MediaType.APPLICATION_JSON)
             .content(wishlistCreateJson))
         .andExpect(MockMvcResultMatchers.status().isBadRequest())
         .andExpect(
-            MockMvcResultMatchers.jsonPath("$.idClient", Is.is("The idClient is required.")))
+            MockMvcResultMatchers.jsonPath("$.idCustomer", Is.is("The idCustomer is required.")))
         .andExpect(MockMvcResultMatchers.content()
             .contentType(MediaType.APPLICATION_JSON));
 

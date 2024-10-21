@@ -9,9 +9,9 @@ public interface WishlistService {
 
   String addProduct(WishlistCreateDto wishlistCreate) throws CustomDataRuntimeExceptionException;
 
-  void deleteProductWishlist(String idProduct, String idClient);
+  void deleteProductWishlist(String idProduct, String idCustomer);
 
-  List<ProductWishlistDto> findProductsByIdClient(String idClient);
+  List<ProductWishlistDto> findProductsByIdCustomer(String idCustomer);
 
-  ProductWishlistDto findProductByIdProductAndIdClient(String idProduct, String idClient);
+  ProductWishlistDto findProductByIdProductAndIdCustomer(String idProduct, String idCustomer);
 }

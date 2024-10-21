@@ -20,23 +20,23 @@ public class WishlistRepositoryImpl implements WishlistRepository {
   }
 
   @Override
-  public void deleteProduct(String idProduct, String idClient) {
-    wishlistRepositoryData.deleteByIdProductAndIdClient(idProduct, idClient);
+  public void deleteProduct(String idProduct, String idCustomer) {
+    wishlistRepositoryData.deleteByIdProductAndIdCustomer(idProduct, idCustomer);
   }
 
   @Override
-  public List<WishlistDomain> findProductsByIdClient(String idClient) {
-    return wishlistRepositoryData.findAllByIdClient(idClient);
+  public List<WishlistDomain> findProductsByIdCustomer(String idCustomer) {
+    return wishlistRepositoryData.findAllByIdCustomer(idCustomer);
   }
 
   @Override
-  public long countProductsByIdClient(String idClient) {
-    return wishlistRepositoryData.countByIdClient(idClient);
+  public long countProductsByIdCustomer(String idCustomer) {
+    return wishlistRepositoryData.countByIdCustomer(idCustomer);
   }
 
   @Override
-  public Optional<WishlistDomain> findProductByIdProductAndIdClient(String idProduct,
-      String idClient) {
-    return wishlistRepositoryData.findByIdProductAndIdClient(idProduct, idClient);
+  public Optional<WishlistDomain> findProductByIdProductAndIdCustomer(String idProduct,
+      String idCustomer) {
+    return wishlistRepositoryData.findByIdProductAndIdCustomer(idProduct, idCustomer);
   }
 }

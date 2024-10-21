@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WishlistCreateDto {
 
-  @NotBlank(message = "The idClient is required.")
-  private String idClient;
+  @NotBlank(message = "The idCustomer is required.")
+  private String idCustomer;
 
   @NotBlank(message = "The idProduct is required.")
   private String idProduct;

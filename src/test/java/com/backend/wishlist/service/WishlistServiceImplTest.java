@@ -36,7 +36,8 @@ public class WishlistServiceImplTest {
       throws CustomDataRuntimeExceptionException {
     WishlistCreateDto wishlistCreate = makeWishlistCreateDto();
     WishlistDomain wishlistDomain = makeWishlistDomain();
-    when(wishlistRepository.countProductsByIdClient(wishlistCreate.getIdClient())).thenReturn(10L);
+    when(wishlistRepository.countProductsByIdCustomer(wishlistCreate.getIdCustomer())).thenReturn(
+        10L);
     when(wishlistRepository.save(any())).thenReturn(
         wishlistDomain.toBuilder().id(ID_WISHLIST).build());
 
@@ -46,9 +47,10 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenWishlistCreateDtoWhenCreateWithProductsLimitReachedFromClientThenShouldError() {
+  public void givenWishlistCreateDtoWhenCreateWithProductsLimitReachedFromCustomerThenShouldError() {
     WishlistCreateDto wishlistCreate = makeWishlistCreateDto();
-    when(wishlistRepository.countProductsByIdClient(wishlistCreate.getIdClient())).thenReturn(20L);
+    when(wishlistRepository.countProductsByIdCustomer(wishlistCreate.getIdCustomer())).thenReturn(
+        20L);
 
     assertThatThrownBy(() -> getSut().addProduct(wishlistCreate))
         .isInstanceOf(CustomDataRuntimeExceptionException.class)
@@ -58,48 +60,48 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenIdProductAndIdClientWhenFindProductDoesNotExistThenShouldError()
+  public void givenIdProductAndIdCustomerWhenFindProductDoesNotExistThenShouldError()
       throws CustomDataNotFoundException {
     Optional<WishlistDomain> wishlist = Optional.empty();
     when(
-        wishlistRepository.findProductByIdProductAndIdClient(ID_PRODUCT,
-            ID_CLIENT)).thenReturn(wishlist);
+        wishlistRepository.findProductByIdProductAndIdCustomer(ID_PRODUCT,
+            ID_CUSTOMER)).thenReturn(wishlist);
 
     assertThatThrownBy(
-        () -> getSut().findProductByIdProductAndIdClient(ID_PRODUCT,
-            ID_CLIENT))
+        () -> getSut().findProductByIdProductAndIdCustomer(ID_PRODUCT,
+            ID_CUSTOMER))
         .isInstanceOf(CustomDataNotFoundException.class)
         .hasMessage("Product not found.");
   }
 
   @Test
-  public void givenIdProductAndIdClientWhenFindProductThenShouldReturnProductWishlistDto()
+  public void givenIdProductAndIdCustomerWhenFindProductThenShouldReturnProductWishlistDto()
       throws CustomDataNotFoundException {
     Optional<WishlistDomain> wishlist = Optional.of(makeWishlistDomain().toBuilder()
         .id("5a4869fa-5f57-4b50-a856-e513bcd23cd2")
         .build());
     when(
-        wishlistRepository.findProductByIdProductAndIdClient(ID_PRODUCT,
-            ID_CLIENT)).thenReturn(wishlist);
+        wishlistRepository.findProductByIdProductAndIdCustomer(ID_PRODUCT,
+            ID_CUSTOMER)).thenReturn(wishlist);
     Assert.assertEquals(makeProductWishlistDto(),
-        getSut().findProductByIdProductAndIdClient(ID_PRODUCT, ID_CLIENT));
+        getSut().findProductByIdProductAndIdCustomer(ID_PRODUCT, ID_CUSTOMER));
 
   }
 
   @Test
-  public void givenIdClientWhenFindProductsThenShouldReturnListOfProductWishlistDto()
+  public void givenIdCustomerWhenFindProductsThenShouldReturnListOfProductWishlistDto()
       throws CustomDataNotFoundException {
     List<WishlistDomain> wishlist = makeWishlistDomainList();
     when(
-        wishlistRepository.findProductsByIdClient(ID_CLIENT)).thenReturn(wishlist);
+        wishlistRepository.findProductsByIdCustomer(ID_CUSTOMER)).thenReturn(wishlist);
     Assert.assertEquals(makeProductWishlistDtoList(),
-        getSut().findProductsByIdClient(ID_CLIENT));
+        getSut().findProductsByIdCustomer(ID_CUSTOMER));
   }
 
   @Test
-  public void givenIdProductAndIdClientWhenDeleteProductWishListThenShouldRegisterSuccessfully() {
-    getSut().deleteProductWishlist(ID_PRODUCT, ID_CLIENT);
-    verify(wishlistRepository, times(1)).deleteProduct(ID_PRODUCT, ID_CLIENT);
+  public void givenIdProductAndIdCustomerWhenDeleteProductWishListThenShouldRegisterSuccessfully() {
+    getSut().deleteProductWishlist(ID_PRODUCT, ID_CUSTOMER);
+    verify(wishlistRepository, times(1)).deleteProduct(ID_PRODUCT, ID_CUSTOMER);
   }
 
 

@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface WishlistRepositoryData extends MongoRepository<WishlistDomain, String> {
 
-  @Transactional
-  void deleteByIdProductAndIdClient(String idProduct, String idClient);
 
-  List<WishlistDomain> findAllByIdClient(String idClient);
+  void deleteByIdProductAndIdCustomer(String idProduct, String idCustomer);
 
-  Optional<WishlistDomain> findByIdProductAndIdClient(String idProduct, String idClient);
+  List<WishlistDomain> findAllByIdCustomer(String idCustomer);
 
-  long countByIdClient(String idClient);
+  Optional<WishlistDomain> findByIdProductAndIdCustomer(String idProduct, String idCustomer);
+
+  long countByIdCustomer(String idCustomer);
 }

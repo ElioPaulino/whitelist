@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"amount\": 3, \n    \"idClient\": \"6619c5fe-da51-42ed-bab9-4af2bffdb7ce\",\n    \"idProduct\": \"01336b4d-32bc-45a0-954f-5ba9f0941b14\"\n}",
+					"raw": "{\n    \"amount\": null, \n    \"idCustomer\": \"97100db9-d2a3-4969-8a55-325201ee8cd3\",\n    \"idProduct\": \"{{$guid}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -30,43 +30,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/backend-wishlist/v1/wishlists/:idProduct",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"backend-wishlist",
-						"v1",
-						"wishlists",
-						":idProduct"
-					],
-					"variable": [
-						{
-							"key": "idProduct",
-							"value": "8b5b9ea0-dc4f-40f8-acca-f623db5334ae"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "[GET ALL BY IDCLIENT] Wishlist",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "[GET BY IDPRODUCT AND  IDCLIENT] Wishlist",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/backend-wishlist/v1/wishlists/products/:idProduct/clients/:idClient",
+					"raw": "http://localhost:8080/backend-wishlist/v1/wishlists/products/:idProduct/customers/:idCustomer",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -78,16 +42,80 @@
 						"wishlists",
 						"products",
 						":idProduct",
-						"clients",
-						":idClient"
+						"customers",
+						":idCustomer"
 					],
 					"variable": [
 						{
 							"key": "idProduct",
-							"value": ""
+							"value": "b4f75795-1595-4592-9b73-421a376a6960"
 						},
 						{
-							"key": "idClient",
+							"key": "idCustomer",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[GET ALL BY IDCUSTOMER] Wishlist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/backend-wishlist/v1/wishlists/customers/:idCustomer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"backend-wishlist",
+						"v1",
+						"wishlists",
+						"customers",
+						":idCustomer"
+					],
+					"variable": [
+						{
+							"key": "idCustomer",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[GET BY IDPRODUCT AND  IDCUSTOMER] Wishlist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/backend-wishlist/v1/wishlists/products/:idProduct/customers/:idCustomer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"backend-wishlist",
+						"v1",
+						"wishlists",
+						"products",
+						":idProduct",
+						"customers",
+						":idCustomer"
+					],
+					"variable": [
+						{
+							"key": "idProduct",
+							"value": "5a4869fa-5f57-4b50-a856-e513bcd23cd2"
+						},
+						{
+							"key": "idCustomer",
 							"value": ""
 						}
 					]

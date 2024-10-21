@@ -30,8 +30,8 @@ public class WishlistServiceImpl implements WishlistService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public String addProduct(WishlistCreateDto wishlistCreate)
       throws CustomDataRuntimeExceptionException {
-    long quantityProducts = wishlistRepository.countProductsByIdClient(
-        wishlistCreate.getIdClient());
+    long quantityProducts = wishlistRepository.countProductsByIdCustomer(
+        wishlistCreate.getIdCustomer());
 
     if (quantityProducts >= 20) {
       throw new CustomDataRuntimeExceptionException("Product limit reached.");
@@ -39,7 +39,7 @@ public class WishlistServiceImpl implements WishlistService {
 
     WishlistDomain wishlist = WishlistDomain.builder()
         .id(UUID.randomUUID().toString())
-        .idClient(wishlistCreate.getIdClient())
+        .idCustomer(wishlistCreate.getIdCustomer())
         .idProduct(wishlistCreate.getIdProduct())
         .amount(wishlistCreate.getAmount())
         .build();
@@ -50,28 +50,29 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void deleteProductWishlist(String idProduct, String idClient) {
-    wishlistRepository.deleteProduct(idProduct, idClient);
+  public void deleteProductWishlist(String idProduct, String idCustomer) {
+    wishlistRepository.deleteProduct(idProduct, idCustomer);
   }
 
   @Override
-  public List<ProductWishlistDto> findProductsByIdClient(String idClient) {
-    List<WishlistDomain> wishlist = wishlistRepository.findProductsByIdClient(idClient);
+  public List<ProductWishlistDto> findProductsByIdCustomer(String idCustomer) {
+    List<WishlistDomain> wishlist = wishlistRepository.findProductsByIdCustomer(idCustomer);
     List<ProductWishlistDto> products = wishlist.stream().map(item -> {
       return ProductWishlistDto.builder()
           .idWishlist(item.getId())
           .amount(item.getAmount())
           .idProduct(item.getIdProduct())
-          .idClient(item.getIdClient())
+          .idCustomer(item.getIdCustomer())
           .build();
     }).collect(Collectors.toList());
     return products;
   }
 
   @Override
-  public ProductWishlistDto findProductByIdProductAndIdClient(String idProduct, String idClient) {
-    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdClient(
-        idProduct, idClient);
+  public ProductWishlistDto findProductByIdProductAndIdCustomer(String idProduct,
+      String idCustomer) {
+    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdCustomer(
+        idProduct, idCustomer);
     wishlist.orElseThrow(() -> new CustomDataNotFoundException("Product not found."));
 
     AtomicReference<ProductWishlistDto> productWishlistDto = new AtomicReference<>(
@@ -81,7 +82,7 @@ public class WishlistServiceImpl implements WishlistService {
           .idWishlist(item.getId())
           .amount(item.getAmount())
           .idProduct(item.getIdProduct())
-          .idClient(item.getIdClient())
+          .idCustomer(item.getIdCustomer())
           .build());
     });
 
