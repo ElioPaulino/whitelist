@@ -13,7 +13,9 @@ import com.backend.wishlist.exception.CustomDataNotFoundException;
 import com.backend.wishlist.exception.CustomDataRuntimeExceptionException;
 import com.backend.wishlist.repository.WishlistRepository;
 import com.backend.wishlist.service.impl.WishlistServiceImpl;
+import java.util.List;
 import java.util.Optional;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -38,7 +40,7 @@ public class WishlistServiceImplTest {
     when(wishlistRepository.save(any())).thenReturn(
         wishlistDomain.toBuilder().id(ID_WISHLIST).build());
 
-    getSut().createProduct(wishlistCreate);
+    Assert.assertEquals(ID_WISHLIST, getSut().addProduct(wishlistCreate));
 
     verify(wishlistRepository, times(1)).save(any());
   }
@@ -48,7 +50,7 @@ public class WishlistServiceImplTest {
     WishlistCreateDto wishlistCreate = makeWishlistCreateDto();
     when(wishlistRepository.countProductsByIdClient(wishlistCreate.getIdClient())).thenReturn(20L);
 
-    assertThatThrownBy(() -> getSut().createProduct(wishlistCreate))
+    assertThatThrownBy(() -> getSut().addProduct(wishlistCreate))
         .isInstanceOf(CustomDataRuntimeExceptionException.class)
         .hasMessage("Product limit reached.");
 
@@ -71,18 +73,34 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenIdProductAndIdClientWhenDeleteProductThenShouldError()
+  public void givenIdProductAndIdClientWhenFindProductThenShouldReturnProductWishlistDto()
       throws CustomDataNotFoundException {
-    Optional<WishlistDomain> wishlist = Optional.empty();
+    Optional<WishlistDomain> wishlist = Optional.of(makeWishlistDomain().toBuilder()
+        .id("5a4869fa-5f57-4b50-a856-e513bcd23cd2")
+        .build());
     when(
         wishlistRepository.findProductByIdProductAndIdClient(ID_PRODUCT,
             ID_CLIENT)).thenReturn(wishlist);
+    Assert.assertEquals(makeProductWishlistDto(),
+        getSut().findProductByIdProductAndIdClient(ID_PRODUCT, ID_CLIENT));
 
-    assertThatThrownBy(
-        () -> getSut().deleteProduct(ID_PRODUCT,
-            ID_CLIENT))
-        .isInstanceOf(CustomDataNotFoundException.class)
-        .hasMessage("Product not found.");
   }
+
+  @Test
+  public void givenIdClientWhenFindProductsThenShouldReturnListOfProductWishlistDto()
+      throws CustomDataNotFoundException {
+    List<WishlistDomain> wishlist = makeWishlistDomainList();
+    when(
+        wishlistRepository.findProductsByIdClient(ID_CLIENT)).thenReturn(wishlist);
+    Assert.assertEquals(makeProductWishlistDtoList(),
+        getSut().findProductsByIdClient(ID_CLIENT));
+  }
+
+  @Test
+  public void givenIdProductAndIdClientWhenDeleteProductWishListThenShouldRegisterSuccessfully() {
+    getSut().deleteProductWishlist(ID_PRODUCT, ID_CLIENT);
+    verify(wishlistRepository, times(1)).deleteProduct(ID_PRODUCT, ID_CLIENT);
+  }
+
 
 }

@@ -34,7 +34,7 @@ public class WishlistController {
   public ResponseEntity<String> addProductWishlist(
       @Valid @RequestBody WishlistCreateDto wishlistCreate)
       throws CustomDataRuntimeExceptionException {
-    String id = wishlistService.createProduct(wishlistCreate);
+    String id = wishlistService.addProduct(wishlistCreate);
     return new ResponseEntity<>(id, HttpStatus.CREATED);
   }
 
@@ -55,9 +55,9 @@ public class WishlistController {
 
   @Operation(summary = "Delete product by idProduct and idCliente")
   @DeleteMapping("/products/{idProduct}/clients/{idClient}")
-  public ResponseEntity<Void> deleteProduct(@PathVariable String idProduct,
+  public ResponseEntity<Void> deleteProductWishlist(@PathVariable String idProduct,
       @PathVariable String idClient) {
-    wishlistService.deleteProduct(idProduct, idClient);
+    wishlistService.deleteProductWishlist(idProduct, idClient);
     return ResponseEntity.noContent().build();
 
   }

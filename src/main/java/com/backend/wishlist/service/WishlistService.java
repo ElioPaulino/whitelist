@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface WishlistService {
 
-  String createProduct(WishlistCreateDto wishlistCreate) throws CustomDataRuntimeExceptionException;
+  String addProduct(WishlistCreateDto wishlistCreate) throws CustomDataRuntimeExceptionException;
 
-  void deleteProduct(String idProduct, String idClient);
+  void deleteProductWishlist(String idProduct, String idClient);
 
   List<ProductWishlistDto> findProductsByIdClient(String idClient);
 

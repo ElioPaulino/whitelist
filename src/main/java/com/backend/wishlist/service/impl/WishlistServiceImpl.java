@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 @Service
 @Slf4j
@@ -27,7 +28,7 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public String createProduct(WishlistCreateDto wishlistCreate)
+  public String addProduct(WishlistCreateDto wishlistCreate)
       throws CustomDataRuntimeExceptionException {
     long quantityProducts = wishlistRepository.countProductsByIdClient(
         wishlistCreate.getIdClient());
@@ -49,8 +50,7 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void deleteProduct(String idProduct, String idClient) {
-    validateIfProductFromClientExists(idProduct, idClient);
+  public void deleteProductWishlist(String idProduct, String idClient) {
     wishlistRepository.deleteProduct(idProduct, idClient);
   }
 
@@ -70,8 +70,9 @@ public class WishlistServiceImpl implements WishlistService {
 
   @Override
   public ProductWishlistDto findProductByIdProductAndIdClient(String idProduct, String idClient) {
-    Optional<WishlistDomain> wishlist = validateIfProductFromClientExists(
+    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdClient(
         idProduct, idClient);
+    wishlist.orElseThrow(() -> new CustomDataNotFoundException("Product not found."));
 
     AtomicReference<ProductWishlistDto> productWishlistDto = new AtomicReference<>(
         new ProductWishlistDto());
@@ -85,13 +86,5 @@ public class WishlistServiceImpl implements WishlistService {
     });
 
     return productWishlistDto.get();
-  }
-
-  private Optional<WishlistDomain> validateIfProductFromClientExists(String idProduct,
-      String idClient) {
-    Optional<WishlistDomain> wishlist = wishlistRepository.findProductByIdProductAndIdClient(
-        idProduct, idClient);
-    wishlist.orElseThrow(() -> new CustomDataNotFoundException("Product not found."));
-    return wishlist;
   }
 }
