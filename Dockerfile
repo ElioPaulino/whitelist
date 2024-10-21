@@ -1,16 +1,30 @@
-# Builder
-FROM azul/zulu-openjdk:21 AS builder
-COPY  . /root/app/
-WORKDIR /root/app
-RUN chmod +x ./mvnw && ./mvnw clean install -B -s settings.xml -Dmaven.test.skip
+# Etapa 1: Compilar a aplicação
+FROM maven:3.9.7-eclipse-temurin-21-alpine AS build
 
-FROM amazoncorretto:21-alpine-jdk AS application
-RUN addgroup --gid 1001 app \
-    && adduser --ingroup app --shell /bin/false --disabled-password --uid 1001 app \
-    && chown app:app .
-USER app
-COPY --from=builder /root/app/target/*.jar /home/app/
-WORKDIR /home/app
-RUN chmod 0777 /home/app
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Copia o arquivo pom.xml e os arquivos de dependências para o diretório de trabalho
+COPY pom.xml ./
+COPY src ./src
+
+# Compila a aplicação
+RUN mvn package
+
+# Etapa 2: Criar a imagem final para execução
+FROM eclipse-temurin:21-jre-alpine
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Cria um argumento para o nome da aplicação
+ARG JAR_FILE=target/*.jar
+
+# Copia o jar compilado da etapa anterior
+COPY --from=build /app/${JAR_FILE} app.jar
+
+# Expõe a porta da aplicação
 EXPOSE 8080
-ENTRYPOINT java -jar $JAVA_OPTIONS *.jar $APP_ARGS
+
+# Define o comando padrão para rodar a aplicação
+CMD ["java", "-jar", "app.jar"]
