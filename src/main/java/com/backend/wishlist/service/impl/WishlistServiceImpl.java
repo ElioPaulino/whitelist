@@ -30,6 +30,7 @@ public class WishlistServiceImpl implements WishlistService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public String addProduct(WishlistCreateDto wishlistCreate)
       throws CustomDataRuntimeExceptionException {
+    log.debug("Starting to insert a product into the customer's wishlist.");
     long quantityProducts = wishlistRepository.countProductsByIdCustomer(
         wishlistCreate.getIdCustomer());
 
@@ -45,6 +46,10 @@ public class WishlistServiceImpl implements WishlistService {
         .build();
 
     WishlistDomain wishlistDomain = wishlistRepository.save(wishlist);
+    log.info("Finishing the insertion of the product {}, in the customer {} wishlist.",
+        wishlistCreate.getIdProduct(),
+        wishlistCreate.getIdCustomer());
+
     return wishlistDomain.getId();
   }
 
@@ -52,6 +57,9 @@ public class WishlistServiceImpl implements WishlistService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void deleteProductWishlist(String idProduct, String idCustomer) {
     wishlistRepository.deleteProduct(idProduct, idCustomer);
+    log.info("Finalizing the deletion of the product {} from customer {}.",
+        idProduct,
+        idCustomer);
   }
 
   @Override

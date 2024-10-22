@@ -40,14 +40,14 @@ public class WishlistController {
 
   @Operation(summary = "Get all products by idCustomer")
   @GetMapping("/customers/{idCustomer}")
-  public ResponseEntity<List<ProductWishlistDto>> findProductsByidCustomer(
+  public ResponseEntity<List<ProductWishlistDto>> findProductsByIdCustomer(
       @PathVariable String idCustomer) {
     return ResponseEntity.ok(wishlistService.findProductsByIdCustomer(idCustomer));
   }
 
   @Operation(summary = "Get product by idProduct and idCustomer")
   @GetMapping("/products/{idProduct}/customers/{idCustomer}")
-  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndidCustomer(
+  public ResponseEntity<ProductWishlistDto> findProductByIdProductAndIdCustomer(
       @PathVariable String idProduct, @PathVariable String idCustomer) {
     return ResponseEntity.ok(
         wishlistService.findProductByIdProductAndIdCustomer(idProduct, idCustomer));

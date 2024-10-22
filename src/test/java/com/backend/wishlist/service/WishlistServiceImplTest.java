@@ -60,8 +60,7 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenIdProductAndIdCustomerWhenFindProductDoesNotExistThenShouldError()
-      throws CustomDataNotFoundException {
+  public void givenIdProductAndIdCustomerWhenFindProductDoesNotExistThenShouldError() {
     Optional<WishlistDomain> wishlist = Optional.empty();
     when(
         wishlistRepository.findProductByIdProductAndIdCustomer(ID_PRODUCT,
@@ -75,8 +74,7 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenIdProductAndIdCustomerWhenFindProductThenShouldReturnProductWishlistDto()
-      throws CustomDataNotFoundException {
+  public void givenIdProductAndIdCustomerWhenFindProductThenShouldReturnProductWishlistDto() {
     Optional<WishlistDomain> wishlist = Optional.of(makeWishlistDomain().toBuilder()
         .id("5a4869fa-5f57-4b50-a856-e513bcd23cd2")
         .build());
@@ -89,8 +87,7 @@ public class WishlistServiceImplTest {
   }
 
   @Test
-  public void givenIdCustomerWhenFindProductsThenShouldReturnListOfProductWishlistDto()
-      throws CustomDataNotFoundException {
+  public void givenIdCustomerWhenFindProductsThenShouldReturnListOfProductWishlistDto() {
     List<WishlistDomain> wishlist = makeWishlistDomainList();
     when(
         wishlistRepository.findProductsByIdCustomer(ID_CUSTOMER)).thenReturn(wishlist);
